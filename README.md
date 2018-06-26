@@ -1,14 +1,14 @@
 # RAC
 RAC is an authentication tool for use with Arduino boards and the RC522 RFID reader.
-It is inspired by the Semi-Random Access Protocol (SRAC) described in ![this paper](https://www.esat.kuleuven.be/cosic/publications/article-663.pdf).
+It is inspired by the Semi-Random Access Protocol (SRAC) described in [this paper](https://www.esat.kuleuven.be/cosic/publications/article-663.pdf).
 
 ## Dependencies
-* ![MFRC522](https://github.com/miguelbalboa/rfid)
-* ![RFIDUtil](https://github.com/halworsen/rfidutil)
+* [MFRC522](https://github.com/miguelbalboa/rfid)
+* [RFIDUtil](https://github.com/halworsen/rfidutil)
 * Entropy
 
-Entropy is avaliable at this ![Google Code](https://code.google.com/archive/p/avr-hardware-random-number-generation/downloads) archive.
-There's also a ![mirror repository](https://github.com/pmjdebruijn/Arduino-Entropy-Library) hosted on GitHub.
+Entropy is avaliable at this [Google Code](https://code.google.com/archive/p/avr-hardware-random-number-generation/downloads) archive.
+There's also a [mirror repository](https://github.com/pmjdebruijn/Arduino-Entropy-Library) hosted on GitHub.
 
 ## Setting up a tag for use with RAC
 To begin using RAC with a tag, you need to set it up first.
