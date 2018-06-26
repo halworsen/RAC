@@ -1,5 +1,5 @@
 # RAC
-RAC is an authentication tool for use with Arduino boards and the RC522 RFID reader.
+Randomized Access Control (RAC) is an authentication tool for use with Arduino boards and the RC522 RFID reader.
 It is inspired by the Semi-Random Access Protocol (SRAC) described in [this paper](https://www.esat.kuleuven.be/cosic/publications/article-663.pdf).
 
 ## Dependencies
