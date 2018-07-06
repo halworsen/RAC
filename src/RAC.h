@@ -22,6 +22,7 @@ public:
 	RACAgent(RFIDUtil _util, byte _key_sector, MFRC522::MIFARE_Key *_read_key, MFRC522::MIFARE_Key *_write_key) :
 		util(_util),
 		key_sector(_key_sector),
+		trailer_block(((_key_sector+1) * 4) - 1),
 		read_key(_read_key),
 		write_key(_write_key) {};
 
@@ -29,9 +30,12 @@ public:
 
 	bool AuthenticateTag();
 	bool SetupTag();
+	bool RemoveTag();
 private:
 	const RFIDUtil util;
 	const byte key_sector;
+	const byte trailer_block;
+	const byte key_block;
 
 	const MFRC522::MIFARE_Key *read_key;
 	const MFRC522::MIFARE_Key *write_key;
@@ -40,6 +44,11 @@ private:
 	RACKey current_key;
 	int valid_index = -1; // index in stored_keys of the key that matches current_key
 	RACKey standby_key; // entropy needs time to generate new bits (32bits/s) so keep one ready at all times
+
+	// these access bytes gives the access bits 0 1 1 for the sector trailer
+	// and 1 0 0 for all of the data blocks
+	const byte access_bytes[4] = {0x78, 0x77, 0x88, 0x00};
+	const byte factory_access_bytes[4] = {0xFF, 0x07, 0x80, 0x69}; // factory default access bytes
 
 	// for setting up tags
 	bool SetupTagSector();

@@ -75,14 +75,63 @@ bool RACAgent::SetupTag(){
 }
 
 /*
+	Removes the tag's access on this board.
+	This will reset the key sector trailer and key block to factory default
+*/
+bool RACAgent::RemoveTag(){
+	// check that the tag is even valid first
+	if(!FetchKey())
+		return false;
+
+	//if(!TestKey(current_key))
+		//return false;
+
+	byte key_block = key_sector*BLOCKS_PER_SECTOR;
+	byte zero_block[16] = {0x00};
+	byte factory_trailer[16];
+	RACKey default_key;
+	bool succ;
+
+	for(int i = 0; i < 16; i++){
+		factory_trailer[i] = 0xFF;
+	}
+
+	// bytes 6-9 are access bytes
+	for(int i = 6; i < 10; i++){
+		factory_trailer[i] = factory_access_bytes[i-6];
+	}
+
+	for(int i = 0; i < KEY_LENGTH; i++){
+		default_key.key_bytes[i] = 0xFF;
+	}
+
+	// overwrite the key block to 0
+	succ = util.WriteBlock(key_block, &(zero_block[0]), BYTES_IN_BLOCK, write_key);
+	if(!succ)
+		return false;
+
+	// reset sector trailer
+	succ = util.WriteBlock(trailer_block, &(factory_trailer[0]), BYTES_IN_BLOCK, write_key);
+	if(!succ)
+		return false;
+
+	// remove the key from EEPROM
+	int address = valid_index*KEY_LENGTH;
+	for(int i = 0; i < KEY_LENGTH; i++){
+		EEPROM.write(address+i, default_key.key_bytes[i]);
+	}
+
+	// and finally remove the key from the stored keys array
+	stored_keys[valid_index] = default_key;
+
+	return true;
+}
+
+/*
 	Sets a factory default sector up for use with RAC
 	Meaning it sets the read/write keys and access bits
 */
 bool RACAgent::SetupTagSector(){
-	byte trailer_block = ((key_sector+1) * 4) - 1;
-	// these access bytes gives the access bits 0 1 1 for the sector trailer
-	// and 1 0 0 for all of the data blocks
-	byte access_bytes[4] = {0x78, 0x77, 0x88, 0x00};
 	MFRC522::MIFARE_Key factory_key;
 	byte new_trailer[16];
 	bool succ;
