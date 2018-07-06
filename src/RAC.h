@@ -28,7 +28,7 @@ public:
 
 	void init();
 
-	bool AuthenticateTag();
+	bool AuthenticateTag(bool update=true);
 	bool SetupTag();
 	bool RemoveTag();
 private:

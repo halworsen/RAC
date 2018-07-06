@@ -42,8 +42,9 @@ void RACAgent::init(){
 
 /*
 	Attempts to authenticate a tag and returns whether or not the tag is valid
+	update determines if the tag's key should be updated on successful authentication
 */
-bool RACAgent::AuthenticateTag(){
+bool RACAgent::AuthenticateTag(bool update=true){
 	// attempt to get the key from the tag
 	if(!FetchKey())
 		return false;
@@ -53,7 +54,7 @@ bool RACAgent::AuthenticateTag(){
 		return false;
 
 	// attempt to make a new key for the tag and write to it
-	if(!UpdateTagKey(valid_index))
+	if(update && !UpdateTagKey(valid_index))
 		return false;
 
 	return true;
