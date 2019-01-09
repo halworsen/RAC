@@ -1,6 +1,5 @@
 # RAC
 Randomized Access Control (RAC) is an authentication tool for use with Arduino boards and the RC522 RFID reader.
-It is inspired by the Semi-Random Access Protocol (SRAC) described in [this paper](https://www.esat.kuleuven.be/cosic/publications/article-663.pdf).
 
 ## Dependencies
 * [MFRC522](https://github.com/miguelbalboa/rfid)
@@ -36,7 +35,7 @@ RAC is intended as a "hobbyist" auth tool, and shouldn't be used for application
 The idea behind RAC isn't waterproof security, but since the tag gets a new key every time it successfully authenticates,
 it defends well enough against tag cloning if the tag is used frequently.
 
-On the flip side, you might get locked out if an attacker clones your tag and uses it before you do.
+On the flip side, you might get locked out if an attacker clones your tag and uses it before you do!
 
 RAC supports keys that are up to 16 bytes long, but due to MIFARE sector keys only being 6 bytes long
 (which provide read access to the block storing the RAC key), you shouldn't expect any security benefits from RAC keys that are longer than 6 bytes.
